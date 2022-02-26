@@ -63,10 +63,14 @@ public class Main {
                 File tempTxt = new File(temp, "temp.txt");
                 logFileCreation(log, tempTxt);
 
-                log.save(tempTxt);
+                try {
+                    log.save(tempTxt);
+                } catch (IOException e) {
+                    System.out.println("Ошибка сохранения лог-файла.");
+                }
             }
 
-            log.print();
+            System.out.println(log);
         }
     }
 }

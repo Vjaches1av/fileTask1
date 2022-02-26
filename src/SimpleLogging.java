@@ -14,8 +14,7 @@ public final class SimpleLogging {
     }
 
     public void write(boolean result, String task) {
-        log.append(LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+        log.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
         log.append(" - ");
         log.append(result ? "Успех" : "Неудача");
         log.append(" - ");
@@ -23,20 +22,15 @@ public final class SimpleLogging {
         log.append(System.lineSeparator());
     }
 
-    public void print() {
-        System.out.println(log);
+    public void save(File path) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
+            writer.write(log.toString());
+        }
     }
 
-    public void save(File path) {
-        if (path.getParentFile().exists()) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
-                writer.write(log.toString());
-                return;
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        System.out.println("Ошибка сохранения лог-файла.");
+    @Override
+    public String toString() {
+        return log.toString();
     }
 
     public static SimpleLogging start() {
